@@ -70,7 +70,7 @@ int main(int argc, const char* argv[])
     LOGGING_PRINTLN_AT(1,"Done in " << sw.elapsed_seconds() << " seconds.");
 
     LOGGING_PRINTLN("Plotting...");;
-    LabelledFigure fig=LabelledFigure({-2.5<=x<=2.5,-3<=y<=3});
+    LabelledFigure fig(Axes2d(-2.5,x,2.5,-3.0,y,3.0));
     fig.draw(simulation);
     fig.write("vanderpol_simulation");
 

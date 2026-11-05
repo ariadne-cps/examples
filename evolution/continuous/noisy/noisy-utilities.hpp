@@ -55,7 +55,7 @@ void run_single(String name, DifferentialInclusion const& ivf, RealVariablesBox 
 
     LOGGING_PRINTLN("Plotting...");
     auto n = ivf.dimension();
-    DifferentialInclusion::EnclosureType::BoundingBoxType::EuclideanSetType graphics_box(n);
+    LabelledEnclosure::EuclideanBoundingBoxType graphics_box(n);
     for (auto set: orbit.reach()) {
         graphics_box = hull(graphics_box,set.euclidean_set().bounding_box());
     }
