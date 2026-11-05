@@ -42,11 +42,12 @@ HybridAutomaton getSkinTemperature()
     /// Build the Hybrid System
 
     /// Create a HybridAutomaton object
-	AtomicHybridAutomaton automaton("skin-T");
+	StringVariable temperature_mode("skin-T");
+	HybridAutomaton automaton(temperature_mode.name());
 
     /// Create the discrete states
-	AtomicDiscreteLocation varying("varying");
-	AtomicDiscreteLocation evaporating("evaporating");
+	DiscreteLocation varying(temperature_mode|"varying");
+	DiscreteLocation evaporating(temperature_mode|"evaporating");
 
     RealVariable p("p");
     RealVariable T("T");
@@ -58,7 +59,7 @@ HybridAutomaton getSkinTemperature()
     automaton.new_mode(varying,{dot(T)=mu*p - lambda*(T-T0)});
 	automaton.new_mode(evaporating,{dot(T)=0});
 
-	automaton.new_transition(varying,start_evaporating,evaporating,{next(T)=Tevap},T>=Tevap);
+	automaton.new_transition(varying,start_evaporating,evaporating,{next(T)=Tevap},T>=Tevap,EventKind::URGENT);
 	automaton.new_transition(evaporating,stop_evaporating,varying);
 
 	return automaton;

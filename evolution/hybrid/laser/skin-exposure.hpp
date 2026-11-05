@@ -41,11 +41,12 @@ HybridAutomaton getSkinExposure()
     /// Build the Hybrid System
 
     /// Create a HybridAutomaton object
-	AtomicHybridAutomaton automaton("skin-exposure");
+	StringVariable exposure_mode("skin-exposure");
+	HybridAutomaton automaton(exposure_mode.name());
 
     /// Create the discrete states
-	AtomicDiscreteLocation close("close");
-	AtomicDiscreteLocation far("far");
+	DiscreteLocation close(exposure_mode|"close");
+	DiscreteLocation far(exposure_mode|"far");
 
     RealVariable x("x");
     RealVariable vx("vx");
@@ -60,8 +61,8 @@ HybridAutomaton getSkinExposure()
 	automaton.new_mode(far, {dot(p)=0});
 	automaton.new_mode(close, {dot(p)=-vx*pi/L/L * (x-x0) * sin(Ariadne::pi/L/L * sqr_distance)});
 
-	automaton.new_transition(far,comes,close,{next(p)=0},sqr_distance<=L*L);
-	automaton.new_transition(close,leaves,far,{next(p)=0},sqr_distance>=L*L);
+	automaton.new_transition(far,comes,close,{next(p)=0},sqr_distance<=L*L,EventKind::URGENT);
+	automaton.new_transition(close,leaves,far,{next(p)=0},sqr_distance>=L*L,EventKind::URGENT);
 
 	return automaton;
 }

@@ -53,21 +53,17 @@ void verify_buck() {
     cout << "bounded_safe_set=" << bounded_safe_set << "\n";
 
 
-    MaximumError max_err=0.01;
-    TaylorSeriesIntegrator integrator(max_err);
-    integrator.set_maximum_step_size(8);
-    integrator.set_maximum_step_size(1);
-    auto& factory=integrator.function_factory();
+    StepMaximumError max_err=0.01;
+    TaylorPicardIntegrator integrator(max_err);
 
     GeneralHybridEvolver evolver(system);
     evolver.set_integrator(integrator);
-    evolver.verbosity=1;
+    evolver.configuration().set_maximum_step_size(1);
 
-    HybridReachabilityAnalyser analyser(system,evolver);
+    HybridReachabilityAnalyser analyser(evolver);
     analyser.configuration().set_transient_time(4.5);
     analyser.configuration().set_lock_to_grid_time(1.0);
-    analyser.configuration().set_maximum_grid_depth(3);
-    analyser.verbosity=1;
+    analyser.configuration().set_maximum_grid_fineness(3);
 
 
 /*    cout << "\nComputing orbit...\n";

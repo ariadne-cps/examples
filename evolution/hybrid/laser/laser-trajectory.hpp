@@ -36,7 +36,8 @@ HybridAutomaton getLaserTrajectory()
     /// Build the Hybrid System
 
     /// Create a HybridAutomaton object
-	AtomicHybridAutomaton automaton("trajectory");
+	StringVariable trajectory_mode("trajectory");
+	HybridAutomaton automaton(trajectory_mode.name());
 
     // Parameters
     RealConstant velocity("velocity",0.092_dec); // Velocity in modulus
@@ -44,7 +45,7 @@ HybridAutomaton getLaserTrajectory()
 
     /// Modes
 
-    AtomicDiscreteLocation scanning("scanning");
+    DiscreteLocation scanning(trajectory_mode|"scanning");
 
     // Variables
 

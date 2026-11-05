@@ -54,7 +54,6 @@ int main(int argc, const char* argv[])
 
     // Create a GeneralHybridEvolver object
     GeneralHybridEvolver evolver(laser_system);
-    evolver.verbosity = verbosity;
 
     // Set the evolution parameters
     evolver.configuration().set_maximum_enclosure_radius(0.5);
@@ -64,16 +63,13 @@ int main(int argc, const char* argv[])
     // Declare the type to be used for the system evolution
     typedef GeneralHybridEvolver::OrbitType OrbitType;
 
-	AtomicDiscreteLocation scanning("scanning");
-	AtomicDiscreteLocation far("far");
-	AtomicDiscreteLocation varying("varying");
-	AtomicDiscreteLocation idle("idle");
-	DiscreteLocation initial_location={laser_trajectory|scanning,exposure|far};//,skin_temperature|varying,cutting_depth|idle};
+    StringVariable trajectory_mode("trajectory"), exposure_mode("skin-exposure");
+    DiscreteLocation initial_location={trajectory_mode|"scanning",exposure_mode|"far"};
     RealVariable p("p"), z("z"), zi("zi"), T("T"), vx("vx"), x("x");
-    //HybridSet initial_set(initial_location,{p==0,z==0,zi==0,T==37,vx==Real(-0.092),x==Real(0.0033)});
-    HybridSet initial_set(initial_location,{p==0,vx==Real(-0.092),x==Real(0.0033)});
+    //HybridSet initial_set(initial_location,{p==0,z==0,zi==0,T==37,vx==Real(-0.092_dec),x==Real(0.0033_dec)});
+    HybridSet initial_set(initial_location,{p==0,vx==Real(-0.092_dec),x==Real(0.0033_dec)});
 
-    HybridTime evolution_time(0.5,2);
+    HybridTime evolution_time(0.5_dec,2);
 
     std::cout << "Computing orbit... " << std::flush;
 

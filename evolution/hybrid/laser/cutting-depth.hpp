@@ -44,12 +44,13 @@ HybridAutomaton getCuttingDepth()
     /// Build the Hybrid System
 
     /// Create a HybridAutomaton object
-	AtomicHybridAutomaton automaton("depth");
+	StringVariable depth_mode("depth");
+	HybridAutomaton automaton(depth_mode.name());
 
     /// Create the discrete states
-	AtomicDiscreteLocation ablating("ablating");
-	AtomicDiscreteLocation idle("idle");
-	AtomicDiscreteLocation carbonization("carbonization");
+	DiscreteLocation ablating(depth_mode|"ablating");
+	DiscreteLocation idle(depth_mode|"idle");
+	DiscreteLocation carbonization(depth_mode|"carbonization");
 
     RealVariable p("p");
     RealVariable z("z"); // The cutting depth
@@ -73,8 +74,8 @@ HybridAutomaton getCuttingDepth()
 
 	/// Transitions
 	automaton.new_transition(idle,start_evaporating,ablating);
-	automaton.new_transition(ablating,stop_evaporating,idle,z_der<=0);
-	automaton.new_transition(ablating,start_carbonization,carbonization,zi>=z_thr);
+	automaton.new_transition(ablating,stop_evaporating,idle,z_der<=0,EventKind::URGENT);
+	automaton.new_transition(ablating,start_carbonization,carbonization,zi>=z_thr,EventKind::URGENT);
 
 	return automaton;
 
