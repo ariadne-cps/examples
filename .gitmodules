@@ -1,0 +1,3 @@
+[submodule "ariadne"]
+	path = ss/ard
+	url = https://github.com/ariadne-cps/ariadne

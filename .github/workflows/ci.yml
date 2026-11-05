@@ -1,0 +1,61 @@
+name: Compile Ariadne examples
+
+env:
+  SCCACHE_GHA_ENABLED: "true"
+  SCCACHE_IGNORE_SERVER_IO_ERROR: "1"
+  SCCACHE_CONF: ${{ github.workspace }}/ss/ard/ss/bui/cmake/sccache.toml
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  compile:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-26, windows-2025]
+    steps:
+      # Git's nested submodule storage exceeds the default Windows path limit.
+      # Match the existing Ariadne Windows workflows before checkout.
+      - name: Enable long paths in Git
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: git config --system core.longpaths true
+      - uses: actions/checkout@v7
+      - name: MSVC environment
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1.13.0
+      - name: Ninja on Ubuntu
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+      - name: Ninja on macOS
+        if: runner.os == 'macOS'
+        run: brew install ninja
+      - name: Initialize Ariadne and Build submodules
+        shell: bash
+        run: |
+          git submodule update --init -- ss/ard
+          git -C ss/ard submodule update --init -- ss/bui
+      - name: Set up sccache
+        uses: mozilla-actions/sccache-action@v0.0.11
+        continue-on-error: true
+        with:
+          version: "v0.18.0"
+      - name: Initialize optional sccache before compilation
+        shell: bash
+        run: cmake -P ss/ard/ss/bui/cmake/InitializeSccache.cmake
+      - name: Configure Ariadne and Evolution examples in one build tree
+        shell: bash
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_PYTHON_BINDINGS=OFF -DWARNINGS_AS_ERRORS=ON -DCMAKE_C_COMPILER_LAUNCHER="$SCCACHE_LAUNCHER" -DCMAKE_CXX_COMPILER_LAUNCHER="$SCCACHE_LAUNCHER"
+      - name: Compile Ariadne and Evolution examples (do not execute)
+        shell: bash
+        run: cmake --build build --parallel 4
+      - name: sccache statistics
+        if: always()
+        shell: bash
+        run: |
+          if command -v sccache >/dev/null 2>&1; then
+            sccache --show-stats || true
+          fi

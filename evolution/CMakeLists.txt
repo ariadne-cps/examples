@@ -1,0 +1,15 @@
+# The Evolution folder can be configured directly against an installed Ariadne.
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    cmake_minimum_required(VERSION 3.15)
+    project(AriadneEvolutionExamples LANGUAGES CXX)
+    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
+    find_package(Ariadne REQUIRED)
+    include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/ExamplesSupport.cmake")
+endif()
+
+add_subdirectory(continuous)
+add_subdirectory(discrete)
+add_subdirectory(hybrid)
+add_subdirectory(pdes)

@@ -1,0 +1,16 @@
+include_guard(GLOBAL)
+
+# All C++ programs in this directory have their own main().
+function(ariadne_add_examples)
+    if(TARGET ariadne)
+        set(_ariadne_link_target ariadne)
+    else()
+        set(_ariadne_link_target Ariadne::ariadne)
+    endif()
+    file(GLOB _example_sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+    foreach(_source IN LISTS _example_sources)
+        get_filename_component(_name "${_source}" NAME_WE)
+        add_executable("${_name}" "${_source}")
+        target_link_libraries("${_name}" PRIVATE ${_ariadne_link_target})
+    endforeach()
+endfunction()
