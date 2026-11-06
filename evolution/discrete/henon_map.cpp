@@ -60,7 +60,7 @@ int main(int argc, const char* argv[])
     // Compute the reachable sets
     Orbit<EnclosureType> orbit = evolver.orbit(initial_set,evolve_time,Semantics::UPPER);
 
-    Axes2d figure_axes(-4<=x<=2,-3<=y<=3);
+    Axes2d figure_axes(-4.0,x,2.0,-3.0,y,3.0);
     LabelledFigure fig(figure_axes);
     fig << fill_colour(magenta) << orbit.reach();
     fig << fill_colour(red) << orbit.final();
