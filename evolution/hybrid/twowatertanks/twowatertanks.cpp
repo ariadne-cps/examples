@@ -70,9 +70,9 @@ Int main(Int argc, const char* argv[])
     std::cout << "done." << std::endl;
 
     std::cout << "Plotting trajectory... "<<std::flush;
-    Axes2d time_height1_axes(0<=TimeVariable()<=evolution_time.continuous_time(),-0.1<=height1<=9.1);
+    Axes2d time_height1_axes(0.0,TimeVariable(),evolution_time.continuous_time(),-0.1,height1,9.1);
     plot("watertank-t-height1",time_height1_axes, Colour(0.0,0.5,1.0), orbit);
-    Axes2d time_height2_axes(0<=TimeVariable()<=evolution_time.continuous_time(),-0.1<=height2<=9.1);
+    Axes2d time_height2_axes(0.0,TimeVariable(),evolution_time.continuous_time(),-0.1,height2,9.1);
     plot("watertank-t-height2",time_height2_axes, Colour(0.0,0.5,1.0), orbit);
     Axes2d height1_aperture1_axes(-0.1,height1,9.1, -0.1,aperture1,1.1);
     plot("watertank-height1-aperture1",height1_aperture1_axes, Colour(0.0,0.5,1.0), orbit);
