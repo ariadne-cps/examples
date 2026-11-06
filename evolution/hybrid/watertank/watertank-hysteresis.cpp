@@ -78,7 +78,7 @@ int main(int argc, const char* argv[])
 
     // Plot the trajectory using two different projections
     LOGGING_PRINTLN("Plotting trajectory... ")
-    Axes2d time_height_axes(0<=TimeVariable()<=30,-0.1<=height<=9.1);
+    Axes2d time_height_axes(0.0,TimeVariable(),30.0,-0.1,height,9.1);
     plot("watertank_hysteresis_t-height",time_height_axes, Colour(0.0,0.5,1.0), orbit);
     Axes2d height_aperture_axes(-0.1,height,9.1, -0.1,aperture,1.3);
     plot("watertank_hysteresis_height-aperture",height_aperture_axes, Colour(0.0,0.5,1.0), orbit);
