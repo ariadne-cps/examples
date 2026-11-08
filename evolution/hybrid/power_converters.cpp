@@ -81,8 +81,11 @@ void verify_buck() {
     auto safety = analyser.verify_safety(initial_set,bounded_safe_set);
 
     cout << "\nDrawing safety...\n";
+    // HybridFigure stores non-owning pointers to drawables until write().
+    HybridAugmentedPavingDrawable safe_set_drawable(safety.safe_set);
+    HybridAugmentedPavingDrawable chain_reach_set_drawable(safety.chain_reach_set);
     HybridFigure g; g.set_axes({0<=V<=Vref+10*Verr,0<=I<=5});
-    g.clear(); g.set_fill_colour(1.0,0.75,0.75); g.draw(safety.safe_set); g.draw(bounded_safe_set); g.set_fill_colour(0.5,0,0.5); g.draw(safety.chain_reach_set); g.set_fill_colour(0.5,0,0.0); g.write("buck-safety");
+    g.clear(); g.set_fill_colour(1.0,0.75,0.75); g.draw(safe_set_drawable); g.draw(bounded_safe_set); g.set_fill_colour(0.5,0,0.5); g.draw(chain_reach_set_drawable); g.set_fill_colour(0.5,0,0.0); g.write("buck-safety");
 
 }
 

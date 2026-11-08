@@ -169,9 +169,12 @@ int main(int argc, const char* argv[])
     chain_reach_set_off[heating|on].clear();
     HybridAugmentedPaving chain_reach_set_on=chain_reach_set;
     chain_reach_set_on[heating|off].clear();
-    plot("heating-chainreach.png",Axes2d(0.0,C,1.0,ApproximateDouble(dTmin),T,ApproximateDouble(dTmax)), guard_colour, guard, chain_reach_off_colour, chain_reach_set_off, chain_reach_on_colour, chain_reach_set_on);
-    plot("heating-chainreach-off.png",Axes2d(0.0,C,1.0,ApproximateDouble(dTmin),T,ApproximateDouble(dTmax)), guard_colour, guard, chain_reach_off_colour, chain_reach_set_off);
-    plot("heating-chainreach-on.png",Axes2d(0.0,C,1.0,ApproximateDouble(dTmin),T,ApproximateDouble(dTmax)), guard_colour, guard, chain_reach_on_colour, chain_reach_set_on);
+    // Keep the drawable adapters alive for each plot() call.
+    HybridAugmentedPavingDrawable chain_reach_off_drawable(chain_reach_set_off);
+    HybridAugmentedPavingDrawable chain_reach_on_drawable(chain_reach_set_on);
+    plot("heating-chainreach.png",Axes2d(0.0,C,1.0,ApproximateDouble(dTmin),T,ApproximateDouble(dTmax)), guard_colour, guard, chain_reach_off_colour, chain_reach_off_drawable, chain_reach_on_colour, chain_reach_on_drawable);
+    plot("heating-chainreach-off.png",Axes2d(0.0,C,1.0,ApproximateDouble(dTmin),T,ApproximateDouble(dTmax)), guard_colour, guard, chain_reach_off_colour, chain_reach_off_drawable);
+    plot("heating-chainreach-on.png",Axes2d(0.0,C,1.0,ApproximateDouble(dTmin),T,ApproximateDouble(dTmax)), guard_colour, guard, chain_reach_on_colour, chain_reach_on_drawable);
     LOGGING_PRINTLN("done.");
     return 0;
 }
