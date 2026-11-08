@@ -68,7 +68,7 @@ int main(int argc, const char* argv[])
     fig.write("henon_map-reach");
 
     // Compute the chain-reach set
-    LabelledStorage chain_reach_set = analyser.outer_chain_reach(initial_set.euclidean_set(henon.state_space()));
+    LabelledAugmentedPaving chain_reach_set = analyser.outer_chain_reach(initial_set.euclidean_set(henon.state_space()));
 
     fig.clear();
     fig << chain_reach_set;

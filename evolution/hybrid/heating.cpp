@@ -162,12 +162,12 @@ int main(int argc, const char* argv[])
     LOGGING_PRINTLN_VAR(analyser.configuration());
 
     LOGGING_PRINTLN("Computing chain-reachable set...");
-    HybridStorage chain_reach_set = analyser.outer_chain_reach(initial_set);
+    HybridAugmentedPaving chain_reach_set = analyser.outer_chain_reach(initial_set);
     LOGGING_PRINTLN("done.");
     LOGGING_PRINTLN("Plotting chain-reachable set...");
-    HybridStorage chain_reach_set_off=chain_reach_set;
+    HybridAugmentedPaving chain_reach_set_off=chain_reach_set;
     chain_reach_set_off[heating|on].clear();
-    HybridStorage chain_reach_set_on=chain_reach_set;
+    HybridAugmentedPaving chain_reach_set_on=chain_reach_set;
     chain_reach_set_on[heating|off].clear();
     plot("heating-chainreach.png",Axes2d(0.0,C,1.0,ApproximateDouble(dTmin),T,ApproximateDouble(dTmax)), guard_colour, guard, chain_reach_off_colour, chain_reach_set_off, chain_reach_on_colour, chain_reach_set_on);
     plot("heating-chainreach-off.png",Axes2d(0.0,C,1.0,ApproximateDouble(dTmin),T,ApproximateDouble(dTmax)), guard_colour, guard, chain_reach_off_colour, chain_reach_set_off);
