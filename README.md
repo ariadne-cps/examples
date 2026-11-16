@@ -16,10 +16,9 @@ The `evolution/` module contains 37 C++ programs:
 
 ## Build with Ariadne
 
-The repository includes Ariadne in the `ss/ard` Git submodule and builds it in the **same CMake tree** as all examples. No installation is required:
+The repository includes Ariadne in the `ss/ari` Git submodule and builds it in the **same CMake tree** as all examples. No installation is required. CMake initializes `ss/ari` automatically, synchronizes it when the parent Gitlink changes, and preserves an intentionally selected local Ariadne commit otherwise:
 
 ```sh
-git submodule update --init -- ss/ard
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_PYTHON_BINDINGS=OFF
 cmake --build build --parallel
 ```
@@ -32,6 +31,8 @@ cmake --build build --parallel
 cmake -S evolution -B build-evolution -DCMAKE_PREFIX_PATH=/path/to/ariadne/install
 cmake --build build-evolution --parallel
 ```
+
+The former `ss/ard` checkout may remain as an obsolete local directory after updating an existing clone. Review any local changes before deleting it; the new checkout is `ss/ari`.
 
 ## Continuous integration
 
