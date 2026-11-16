@@ -22,7 +22,7 @@ function(ariadne_bootstrap_checkout)
         COMMAND "${GIT_EXECUTABLE}" -C "${_root}" ls-files --stage -- "${_path}"
         OUTPUT_VARIABLE _entry OUTPUT_STRIP_TRAILING_WHITESPACE
         ERROR_VARIABLE _error RESULT_VARIABLE _result)
-    if(NOT _result EQUAL 0 OR NOT _entry MATCHES "^160000 ([0-9a-fA-F]+) 0[\\t ]")
+    if(NOT _result EQUAL 0 OR NOT _entry MATCHES "^160000 ([0-9a-fA-F]+) 0")
         message(FATAL_ERROR "Cannot read recorded Ariadne Gitlink: ${_error} ${_entry}")
     endif()
     set(_recorded "${CMAKE_MATCH_1}")
